@@ -1,5 +1,8 @@
 package com.illia.riasurfing.entities;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum  UserRole {
     ROLE_USER("ROLE_USER"),
     ROLE_ADMIN("ROLE_ADMIN");
@@ -12,5 +15,11 @@ public enum  UserRole {
 
     public String getRole() {
         return role;
+    }
+
+    public static Optional<UserRole> getUserRoleValue(String value) {
+        return Arrays.stream(UserRole.values())
+                .filter(enumValue -> enumValue.getRole().equals(value))
+                .findAny();
     }
 }
