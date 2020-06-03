@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+<link rel="stylesheet" type="text/css" href="css/common.css" th:href="@{~/css/common.css}" media="screen"/>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{~/css/bootstrap.min.css}" media="screen"/>
+</head>
+<body>
+<div class="container" >
+    <form id="form" name="form" method="post"  class="form-signin" action="#" th:action="@{/user/registration}" th:object="${user}">
+        <h1 style="alignment: center">Create user form</h1>
+
+        <label for="firstName">User first name*</label>
+        <input th:field="*{firstName}" type="text" name="firstName" id="firstName"  class="form-control"/>
+
+        <label for="lastName">User last name</label>
+        <input th:field="*{lastName}" type="text" name="lastName" id="lastName"  class="form-control"/>
+
+        <label for="nickname">User nickname*</label>
+        <input th:field="*{nickname}" type="text" name="nickname" id="nickname"  class="form-control"/>
+
+        <label for="age">User age</label>
+        <input th:field="*{age}" type="number" name="age" id="age"  class="form-control"/>
+
+        <label for="email">User email</label>
+        <input th:field="*{email}" type="text" name="email" id="email"  class="form-control"/>
+
+        <label for="password">Password</label>
+        <input th:field="*{password}" type="password" name="password" id="password"  class="form-control"/>
+
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Add</button>
+        <ul class="has-error" th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        </ul>
+        <ul class="has-error" th:if="${errors != null}">
+            <li th:text="${errors}">Input is incorrect</li>
+        </ul>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Details</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" th:href="@{~/css/style.css}" media="screen"/>
+</head>
+<body>
+<div th:insert="fragment/navigation-bar::navigation-bar"></div>
+<div class="show-all">
+    <h3>User details:</h3>
+    <div th:if="${user != null}">
+        <table class="zui-table">
+            <thead>
+            <tr>
+                <th th:if="${#request.isUserInRole('ADMIN')}">User id</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Age</th>
+                <th>Nickname</th>
+                <th>User email</th>
+                <th th:if="${#request.isUserInRole('ADMIN')}">Created</th>
+                <th th:if="${#request.isUserInRole('ADMIN')}">User role</th>
+                <th th:if="${#request.isUserInRole('ADMIN')}">User status</th>
+                <th>User subscriptions</th>
+                <th>User search requests</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:if="${#request.isUserInRole('ADMIN')}"><span th:text="${user.id}">Id</span></td>
+                <td><span th:text="${user.firstName}">First name</span></td>
+                <td><span th:text="${user.lastName}">First name</span></td>
+                <td><span th:text="${user.age}">Age</span></td>
+                <td><span th:text="${user.nickname}">Nickname</span></td>
+                <td><span th:text="${user.email}">Email</span></td>
+                <td th:if="${#request.isUserInRole('ADMIN')}"><script>
+                    // timeConverter(1591024530939);
+                </script></td>
+                <td th:if="${#request.isUserInRole('ADMIN')}"><span th:text="${user.userRole}">User role</span></td>
+                <td th:if="${#request.isUserInRole('ADMIN')}"><span th:text="${user.userStatus}">User status</span></td>
+                <td th:if="${user.subscriptions != null}">
+                    <span th:text="${user.subscriptions.size()}">Subscriptions</span>
+                </td>
+                <td th:if="${user.searchHistory != null}">
+                    <span th:text="${user.searchHistory.size()}">Search history</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a href="#" th:href="@{/user/{id}/updatePage(id=${user.id})}" class="button" role="button" tabindex="0">
+            Update details</a>
+        <a th:if="${#request.isUserInRole('ADMIN')}" href="#" th:href="@{/admin/updateRole/{id}(id=${user.id})}"
+           class="button" role="button" tabindex="0">Update role</a>
+        <a th:if="${#request.isUserInRole('ADMIN')}" href="#" th:href="@{/admin/updateStatus/{id}(id=${user.id})}"
+           class="button" role="button" tabindex="0">Update status</a>
+        <a class="button" type="button" th:with="url=@{/user/delete/{id}(id=${user.id})}" th:onclick="sendDelete([[${url}]])">Delete</a>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    function sendDelete(url) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", url, true);
+        xhttp.onload = function () {
+            var responseURL = xhttp.responseURL;
+            console.log("Redirecting to:", responseURL);
+            window.location.replace(responseURL);
+        };
+        xhttp.send();
+    }
+</script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>RIA-MOTO</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" th:href="@{~/css/style.css}" media="screen"/>
+</head>
+<body>
+<div th:fragment="navigation-bar">
+    <div class="navbar">
+        <a href="#" th:href="@{/}">Home</a>
+        <div class="dropdown" th:if="${#request.isUserInRole('ADMIN')}">
+            <button class="dropbtn">Admin
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#" th:href="@{/admin/users}">Show all users</a>
+                <a href="#" th:href="@{/admin/usersNew}">Show all new users</a>
+                <a href="#" th:href="@{/admin/usersActive}">Show all active users</a>
+                <a href="#" th:href="@{/admin/usersDisabled}">Show all disabled users</a>
+            </div>
+        </div>
+        <a href="#" th:href="@{/about}">About</a>
+        <div class="dropdown" style="float: right">
+            <button class="dropbtn"><span th:text="${#request.getUserPrincipal().name}">Username</span>
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a href="#" th:href="@{/user/details/{nickname}(nickname=${#request.getUserPrincipal().name})}">User details</a>
+                <a href="#" th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
