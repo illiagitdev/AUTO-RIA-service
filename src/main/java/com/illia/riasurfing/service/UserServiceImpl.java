@@ -91,12 +91,20 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+
     @Override
     public void update(User user) {
-        UserRole role = userRepository.findById(user.getId()).get().getUserRole();
-        user.setUserRole(role);
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
+        User percistentUser = userRepository.getOne(user.getId());
+        percistentUser.setFirstName(user.getFirstName());
+        percistentUser.setLastName(user.getLastName());
+        percistentUser.setNickname(user.getNickname());
+        percistentUser.setAge(user.getAge());
+        percistentUser.setEmail(user.getEmail());
+        percistentUser.setPassword(encoder.encode(user.getPassword()));
+        LOG.debug(String.format("update: %s, %s, %s, %s, %s, %s, %s,",
+                user.getFirstName(), user.getLastName(), user.getNickname(), user.getAge(),
+                user.getEmail(), user.getUserRole(), user.getUserStatus()));
+        userRepository.save(percistentUser);
     }
 
     @Override
