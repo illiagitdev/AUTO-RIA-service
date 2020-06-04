@@ -5,13 +5,13 @@ import com.illia.riasurfing.entities.UserRole;
 import com.illia.riasurfing.entities.UserStatus;
 import com.illia.riasurfing.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Controller
+@RestController
 @RequestMapping(path = "/admin")
 public class AdminController {
 
@@ -23,60 +23,52 @@ public class AdminController {
     }
 
     @GetMapping(value = "/users")
-    public String listUsers(Model model) {
-        model.addAttribute("users", userService.getList());
-        return "user/list";
+    public ResponseEntity<?> listUsers() {
+        return  ResponseEntity.ok(userService.getList());
     }
 
     @GetMapping(value = "/usersNew")
-    public String listNewUsers(Model model) {
-        model.addAttribute("users", userService.getListNew());
-        return "user/list";
+    public ResponseEntity<?> listNewUsers() {
+        return ResponseEntity.ok(userService.getListNew());
     }
 
     @GetMapping(value = "/usersActive")
-    public String listActiveUsers(Model model) {
-        model.addAttribute("users", userService.getListActive());
-        return "user/list";
+    public ResponseEntity<?> listActiveUsers() {
+        return ResponseEntity.ok(userService.getListActive());
     }
 
     @GetMapping(value = "/usersDisabled")
-    public String listDisabledUsers(Model model) {
-        model.addAttribute("users", userService.getListDisabled());
-        return "user/list";
+    public ResponseEntity<?> listDisabledUsers() {
+        return ResponseEntity.ok(userService.getListDisabled());
     }
 
     @GetMapping(value = "/details/{id}")
-    public String showDetails(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
-        return "user/details";
+    public ResponseEntity<?> showDetails(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
-    @GetMapping(path = "/updateRole/{id}")
-    public String updateUserRoleView(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("roles", List.of(UserRole.values()));
-        model.addAttribute("user", userService.getUser(id));
-        return "user/update-role";
-    }
-
-    @PostMapping(path = "/updateRole/{id}")
-    public String updateUserRole(@PathVariable("id") Integer id, @RequestParam("role") String role, Model model) {
+    @PatchMapping(path = "/updateRole/{id}")
+    public ResponseEntity<?> updateUserRole(@PathVariable("id") Integer id, @RequestParam("role") String role) {
         final User user = userService.updateRole(id, UserRole.valueOf(role));
-        model.addAttribute("user", user);
-        return "user/details";
+        return ResponseEntity.ok(user);
     }
 
-    @GetMapping(path = "/updateStatus/{id}")
-    public String updateUserStatusView(@PathVariable("id") Integer id, Model model) {
-        model.addAttribute("statuses", List.of(UserStatus.values()));
-        model.addAttribute("user", userService.getUser(id));
-        return "user/update-status";
-    }
-
-    @PostMapping(path = "/updateStatus/{id}")
-    public String updateUserStatus(@PathVariable("id") Integer id, @RequestParam("status") String status, Model model) {
+    @PatchMapping(path = "/updateStatus/{id}")
+    public ResponseEntity<?> updateUserStatus(@PathVariable("id") Integer id, @RequestParam("status") String status) {
         final User user = userService.updateStatus(id, UserStatus.valueOf(status));
-        model.addAttribute("user", user);
-        return "user/details";
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final int principalId = userService.getUser(principal.getUsername()).getId();
+        userService.delete(id);
+        if (principalId == id) {
+            SecurityContextHolder.clearContext();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        } else {
+            return ResponseEntity.ok("User deleted");
+        }
     }
 }
