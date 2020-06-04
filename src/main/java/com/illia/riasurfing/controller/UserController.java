@@ -1,20 +1,16 @@
 package com.illia.riasurfing.controller;
 
 import com.illia.riasurfing.entities.User;
-import com.illia.riasurfing.exceptions.UserEmailExistsException;
-import com.illia.riasurfing.exceptions.UserNicknameExistsException;
 import com.illia.riasurfing.service.UserService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
-@Controller
+@RestController
 @RequestMapping(path = "/user")
 public class UserController {
     private UserService userService;
@@ -24,48 +20,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/registration")
-    public String showRegistrationForm() {
-        return "registration";
-    }
-
-    @PostMapping(path = "/registration")
-    public String userRegistration(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "registration";
-        }
-
-        try {
-            userService.create(user);
-        } catch (UserNicknameExistsException | UserEmailExistsException ex) {
-            model.addAttribute("errors", ex.getMessage());
-            return "registration";
-        }
-
-        return "redirect:/login";
-    }
-
     @GetMapping(path = "/details/{nickname}")
-    public String showDetails(@PathVariable("nickname") String nickname, Model model) {
-        model.addAttribute("user", userService.getUser(nickname));
-        return "user/details";
+    public ResponseEntity<?> showDetails(@PathVariable("nickname") String nickname) {
+        return ResponseEntity.ok(userService.getUser(nickname));
     }
 
-    @DeleteMapping(path = "/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id) {
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<?> deleteUser() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        final int principalId = userService.getUser(principal.getUsername()).getId();
-        userService.delete(id);
-        if (principalId == id) {
-            SecurityContextHolder.clearContext();
-            return "redirect:/login";
-        } else {
-            return "index";
-        }
+        final String principalName = principal.getUsername();
+        userService.delete(userService.getUser(principalName).getId());
+        SecurityContextHolder.clearContext();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User deleted");
     }
 
-    @ModelAttribute
-    public User defaultUser() {
-        return new User();
+    @SneakyThrows
+    @PutMapping(path = "/update")
+    public ResponseEntity<?> updateUser(@RequestBody User jsonUser) {
+        userService.update(jsonUser);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("User updated");
     }
 }
