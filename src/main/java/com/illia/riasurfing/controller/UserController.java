@@ -20,12 +20,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/details/{nickname}")
+    @GetMapping(path = "/{nickname}")
     public ResponseEntity<?> showDetails(@PathVariable("nickname") String nickname) {
         return ResponseEntity.ok(userService.getUser(nickname));
     }
 
-    @DeleteMapping(path = "/delete")
+    @DeleteMapping
     public ResponseEntity<?> deleteUser() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final String principalName = principal.getUsername();
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @SneakyThrows
-    @PutMapping(path = "/update")
+    @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User jsonUser) {
         userService.update(jsonUser);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("User updated");

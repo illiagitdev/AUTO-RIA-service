@@ -1,5 +1,6 @@
 package com.illia.riasurfing.entities;
 
+import com.illia.riasurfing.entities.search.request.CustomRequest;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class User extends BaseEntity {
     private UserRole userRole;
     private UserStatus userStatus;
     private List<Subscription> subscriptions;
-    private List<SearchRequest> searchHistory;
+    private List<CustomRequest> searchHistory;
 
     public User() {
     }
@@ -126,11 +127,11 @@ public class User extends BaseEntity {
     }
 
     @Transient
-    public List<SearchRequest> getSearchHistory() {
+    public List<CustomRequest> getSearchHistory() {
         return searchHistory;
     }
 
-    public void setSearchHistory(List<SearchRequest> searchHistory) {
+    public void setSearchHistory(List<CustomRequest> searchHistory) {
         this.searchHistory = searchHistory;
     }
 }
