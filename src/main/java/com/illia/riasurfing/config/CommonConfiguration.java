@@ -1,4 +1,4 @@
-package com.illia.riasurfing;
+package com.illia.riasurfing.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
@@ -11,4 +11,5 @@ public class CommonConfiguration {
     public ObjectMapper getMapper() {
         return new ObjectMapper();
     }
+
 }
