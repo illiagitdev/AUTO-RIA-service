@@ -1,31 +1,37 @@
 package com.illia.riasurfing.entities.search.request;
 
-import java.util.Arrays;
-import java.util.Optional;
+import com.illia.riasurfing.entities.BaseEntity;
+import org.springframework.stereotype.Component;
 
-public enum Category {
-    CARS("Легковые", 1),
-    MOTO("Мото", 2);
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-    private final String name;
-    private final int value;
+@Component
+@Entity
+@Table(name = "categories")
+public class Category extends BaseEntity {
+    private String name;
+    private int value;
 
-    Category(String name, int value) {
-        this.name = name;
-        this.value = value;
+    Category() {
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "value")
     public int getValue() {
         return value;
     }
 
-    public static Optional<Category> getCategoryValue(String value) {
-        return Arrays.stream(Category.values())
-                .filter(enumValue -> enumValue.getName().equals(value))
-                .findAny();
+    public void setValue(int value) {
+        this.value = value;
     }
 }
