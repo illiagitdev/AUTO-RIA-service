@@ -172,11 +172,14 @@ CREATE TABLE search_history (
     price_ot int,
     price_do int,
     color_id int,
+    countpage int,
     top int,
     time_created bigint,
     subscription boolean,
     PRIMARY KEY (id)
 );
+
+-- alter table search_history add column countpage int default 0;
 
 alter table search_history
     owner to postgres;

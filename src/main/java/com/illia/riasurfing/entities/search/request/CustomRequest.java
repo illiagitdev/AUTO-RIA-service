@@ -29,6 +29,7 @@ public class CustomRequest extends BaseEntity {
     private List<DriveTypeId> driveTypesIds;
 
     private int top;    //criteria when post was added
+    private int countpage;
     private long timeCreated;
     private boolean subscription;
 
@@ -144,6 +145,15 @@ public class CustomRequest extends BaseEntity {
 
     public void setTop(int top) {
         this.top = top;
+    }
+
+    @Column(name = "countpage")
+    public int getCountpage() {
+        return countpage;
+    }
+
+    public void setCountpage(int countpage) {
+        this.countpage = countpage;
     }
 
     @Column(name = "time_created")
