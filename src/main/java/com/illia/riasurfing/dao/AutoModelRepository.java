@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface AutoModelRepository extends JpaRepository<AutoModel, Integer> {
+
     @Query("FROM AutoModel WHERE category_id=?1 AND mark_id=?2")
     List<AutoModel> findByCategoryAndMark(int categoryId, int markaId);
+
+    boolean existsByValue(Integer modelId);
+
 }

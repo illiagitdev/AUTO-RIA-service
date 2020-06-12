@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface AutoBrandRepository extends JpaRepository<AutoBrand, Integer> {
+
     @Query("FROM AutoBrand WHERE category_id=?1")
     List<AutoBrand> getAllByCategory(int id);
+
+    boolean existsByValue(Integer brandId);
+
 }

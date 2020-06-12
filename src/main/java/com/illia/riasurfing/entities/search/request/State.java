@@ -3,9 +3,8 @@ package com.illia.riasurfing.entities.search.request;
 import com.illia.riasurfing.entities.BaseEntity;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Component
 @Entity
@@ -13,6 +12,7 @@ import javax.persistence.Table;
 public class State extends BaseEntity {
     private String name;
     private int value;
+    private List<City> cities;
 
     State() {
     }
@@ -33,5 +33,15 @@ public class State extends BaseEntity {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "state_id")
+    public List<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<City> cities) {
+        this.cities = cities;
     }
 }

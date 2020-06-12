@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface DriveTypeRepository extends JpaRepository<DriveType, Integer> {
+
     @Query("FROM DriveType WHERE category_id=?1")
     List<DriveType> findByCategory(int categoryId);
+
+    boolean existsByValue(Integer driveTypeId);
+
 }

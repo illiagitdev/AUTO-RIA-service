@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FuelTypeRepository extends JpaRepository<FuelType, Integer> {
+
+    boolean existsByValue(Integer fuelType);
+
 }

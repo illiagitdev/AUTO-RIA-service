@@ -9,6 +9,10 @@ import java.util.List;
 
 @Repository
 public interface GearboxRepository extends JpaRepository<GearBox, Integer> {
+
     @Query("FROM GearBox WHERE category_id=?1")
     List<GearBox> findByCategory(int categoryId);
+
+    boolean existsByValue(int gearboxId);
+
 }
