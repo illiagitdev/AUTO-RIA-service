@@ -3,7 +3,7 @@ package com.illia.riasurfing.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.illia.riasurfing.entities.search.request.*;
 import com.illia.riasurfing.entities.search.searchid.IdSearchResponse;
-import com.illia.riasurfing.service.OkHttpSearchServiceImpl;
+import com.illia.riasurfing.service.HttpClientService;
 import com.illia.riasurfing.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ import java.io.IOException;
 @RestController
 @RequestMapping(path = "/search")
 public class SearchRequestController {
-    private OkHttpSearchServiceImpl httpClientService;
+    private HttpClientService httpClientService;
     private ObjectMapper mapper;
     private UserService userService;
 
     @Autowired
-    public SearchRequestController(OkHttpSearchServiceImpl httpClientService, UserService userService) {
+    public SearchRequestController(HttpClientService httpClientService, UserService userService) {
         this.httpClientService = httpClientService;
         this.userService = userService;
     }
@@ -46,5 +46,4 @@ public class SearchRequestController {
     public ResponseEntity<?> searchRequest(@RequestBody CustomRequest jsonRequest) {
         return ResponseEntity.ok(mapper.writeValueAsString(httpClientService.searchList(jsonRequest)));
     }
-
 }

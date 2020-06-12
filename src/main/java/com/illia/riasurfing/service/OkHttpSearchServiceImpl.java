@@ -66,9 +66,9 @@ public class OkHttpSearchServiceImpl implements HttpClientService{
         for (String id : response.getResponseResult().getSearchResult().getIds()) {
             final ResponseBody body = getResponse(uriMapper.getIdInfoUri(id))
                     .body();
-            LOG.debug(String.format("exeption here %s\n%s", id, body.toString()));
             result.add(mapper.readValue(Objects.requireNonNull(body).bytes(), new TypeReference<>() {}));
         }
+        LOG.debug(String.format("searchList: count = %s", result.size()));
 
         return result;
     }
