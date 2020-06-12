@@ -1,14 +1,18 @@
 package com.illia.riasurfing.service;
 
+import com.illia.riasurfing.dao.CustomRequestRepository;
 import com.illia.riasurfing.dao.UserRepository;
 import com.illia.riasurfing.entities.User;
 import com.illia.riasurfing.entities.UserRole;
 import com.illia.riasurfing.entities.UserStatus;
+import com.illia.riasurfing.entities.search.request.CustomRequest;
 import com.illia.riasurfing.exceptions.UserEmailExistsException;
 import com.illia.riasurfing.exceptions.UserNicknameExistsException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +24,11 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
     private UserRepository userRepository;
     private BCryptPasswordEncoder encoder;
+    private CustomRequestRepository requestRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, CustomRequestRepository requestRepository) {
         this.userRepository = userRepository;
+        this.requestRepository = requestRepository;
     }
 
     @Autowired
@@ -72,6 +78,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<CustomRequest> getSearchHistoryPage(int userId, Pageable p) {
+        return requestRepository.getByUserId(userId, p);
+    }
+
+    @Override
     public User getUser(String nickname) {
         LOG.info(String.format("getUser(nickname): %s", nickname));
         return userRepository.findByNickname(nickname).orElseThrow(() ->
@@ -90,7 +101,6 @@ public class UserServiceImpl implements UserService {
         LOG.debug(String.format("delete: id=%s", id));
         userRepository.deleteById(id);
     }
-
 
     @Override
     public void update(User user) {
