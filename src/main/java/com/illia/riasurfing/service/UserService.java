@@ -26,5 +26,6 @@ public interface UserService {
     void enableSubscription(Integer requestId);
     void disableSubscription(Integer requestId);
     Page<CustomRequest> getSearchHistoryPage(int userId, Pageable p);
+    User updateAll(User jsonUser);
 
 }

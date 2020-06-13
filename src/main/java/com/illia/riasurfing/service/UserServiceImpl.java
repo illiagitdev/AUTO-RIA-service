@@ -9,6 +9,7 @@ import com.illia.riasurfing.entities.search.request.CustomRequest;
 import com.illia.riasurfing.exceptions.SubscriptionException;
 import com.illia.riasurfing.exceptions.UserEmailExistsException;
 import com.illia.riasurfing.exceptions.UserNicknameExistsException;
+import com.illia.riasurfing.exceptions.UserNotExistsException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,17 @@ public class UserServiceImpl implements UserService {
     public void delete(Integer id) {
         LOG.debug(String.format("delete: id=%s", id));
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User updateAll(User jsonUser) {
+        if (userRepository.existsById(jsonUser.getId())) {
+            jsonUser.setPassword(encoder.encode(jsonUser.getPassword()));
+            return userRepository.saveAndFlush(jsonUser);
+        } else {
+            throw new UserNotExistsException(String.format("User with id %s not exist", jsonUser.getId()));
+        }
+
     }
 
     @Override
