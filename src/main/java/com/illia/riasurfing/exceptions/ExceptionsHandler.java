@@ -34,7 +34,8 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({UserEmailExistsException.class,
             UserNicknameExistsException.class,
             RequestIllegalArgumentException.class,
-            SubscriptionException.class})
+            SubscriptionException.class,
+            UserNotExistsException.class})
     public ResponseEntity<Object> handleCustomExceptions(Exception ex) {
         List<String> errors = new ArrayList<>();
         errors.add(String.format("error: %s", ex.getLocalizedMessage()));

@@ -47,6 +47,11 @@ public class AdminController {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
+    @PutMapping(value = "/update")
+    public ResponseEntity<?> updateUser(@RequestBody User jsonUser) {
+        return ResponseEntity.ok(userService.updateAll(jsonUser));
+    }
+
     @PatchMapping(path = "/updateRole/{id}")
     public ResponseEntity<?> updateUserRole(@PathVariable("id") Integer id, @RequestParam("role") String role) {
         final User user = userService.updateRole(id, UserRole.valueOf(role));

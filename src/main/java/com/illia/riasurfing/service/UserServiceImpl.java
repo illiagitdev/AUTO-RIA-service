@@ -128,7 +128,6 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new UserNotExistsException(String.format("User with id %s not exist", jsonUser.getId()));
         }
-
     }
 
     @Override
