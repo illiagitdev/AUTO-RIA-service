@@ -60,6 +60,18 @@ public class UserController {
         return ResponseEntity.ok(mapper.writeValueAsString(page));
     }
 
+    @PutMapping(path = "/subscribe")
+    public ResponseEntity<?> getSubscribeToSearchUpdates(@RequestParam("requestId") Integer requestId) {
+        userService.enableSubscription(requestId);
+        return ResponseEntity.ok("Subscribed.");
+    }
+
+    @PutMapping(path = "/unsubscribe")
+    public ResponseEntity<?> disableSubscribeToSearchUpdates(@RequestParam("requestId") Integer requestId) {
+        userService.disableSubscription(requestId);
+        return ResponseEntity.ok("Subscription disabled.");
+    }
+
     private int getUserId() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String principalName = principal.getUsername();

@@ -23,5 +23,8 @@ public interface UserService {
     List<User> getListNew();
     List<User> getListActive();
     List<User> getListDisabled();
+    void enableSubscription(Integer requestId);
+    void disableSubscription(Integer requestId);
     Page<CustomRequest> getSearchHistoryPage(int userId, Pageable p);
+
 }

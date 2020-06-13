@@ -6,6 +6,7 @@ import com.illia.riasurfing.entities.User;
 import com.illia.riasurfing.entities.UserRole;
 import com.illia.riasurfing.entities.UserStatus;
 import com.illia.riasurfing.entities.search.request.CustomRequest;
+import com.illia.riasurfing.exceptions.SubscriptionException;
 import com.illia.riasurfing.exceptions.UserEmailExistsException;
 import com.illia.riasurfing.exceptions.UserNicknameExistsException;
 import org.apache.logging.log4j.LogManager;
@@ -75,6 +76,22 @@ public class UserServiceImpl implements UserService {
         final List<User> users = userRepository.findByUserStatus(UserStatus.DISABLED);
         LOG.debug(String.format("getListDisabled: size %s", users.size()));
         return users.stream().peek(user -> user.setPassword("*****")).collect(Collectors.toList());
+    }
+
+    @Override
+    public void enableSubscription(Integer requestId) {
+        final CustomRequest updateSubscription = requestRepository.findById(requestId).orElseThrow(() ->
+                new SubscriptionException("Subscription failure"));
+        updateSubscription.setSubscription(true);
+        requestRepository.save(updateSubscription);
+    }
+
+    @Override
+    public void disableSubscription(Integer requestId) {
+        final CustomRequest updateSubscription = requestRepository.findById(requestId).orElseThrow(() ->
+                new SubscriptionException("Subscription disabling failure"));
+        updateSubscription.setSubscription(false);
+        requestRepository.save(updateSubscription);
     }
 
     @Override
