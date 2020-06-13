@@ -185,7 +185,5 @@ public class MethodServiceImpl implements MethodService {
             returnValue.setValue(value.getValue());
             return returnValue;
         }).collect(Collectors.toCollection(ArrayList::new));
-
     }
-
 }

@@ -11,9 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "search_history")
 @JsonIgnoreProperties(ignoreUnknown = true)
-//parsing request parameters for search request to provider
-//extends BaseEntity - value saved to DB for search history
-//history life 60 days, add time request created
 public class CustomRequest extends BaseEntity {
     private Integer userId;
     private Integer categoryId;
