@@ -3,6 +3,7 @@ package com.illia.riasurfing.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.illia.riasurfing.dao.CustomRequestRepository;
+import com.illia.riasurfing.entities.ResponseMapper;
 import com.illia.riasurfing.entities.search.request.*;
 import com.illia.riasurfing.entities.search.response.ApiSearchResponse;
 import com.illia.riasurfing.entities.search.searchid.IdSearchResponse;
@@ -17,9 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class OkHttpSearchServiceImpl implements HttpClientService{
@@ -51,7 +50,7 @@ public class OkHttpSearchServiceImpl implements HttpClientService{
     }
 
     @Override
-    public List<IdSearchResponseSlim> searchList(CustomRequest jsonRequest) throws IOException {
+    public ResponseMapper<Integer, List<IdSearchResponseSlim>> searchList(CustomRequest jsonRequest) throws IOException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = userService.getUser(principal.getUsername()).getId();
         jsonRequest.setUserId(userId);
@@ -62,13 +61,17 @@ public class OkHttpSearchServiceImpl implements HttpClientService{
                 .bytes(), new TypeReference<>() {
         });
 
-        List<IdSearchResponseSlim> result = new ArrayList<>();
+        List<IdSearchResponseSlim> list = new ArrayList<>();
         for (String id : response.getResponseResult().getSearchResult().getIds()) {
             final ResponseBody body = getResponse(uriMapper.getIdInfoUri(id))
                     .body();
-            result.add(mapper.readValue(Objects.requireNonNull(body).bytes(), new TypeReference<>() {}));
+            list.add(mapper.readValue(Objects.requireNonNull(body).bytes(), new TypeReference<>() {}));
         }
-        LOG.debug(String.format("searchList: count = %s", result.size()));
+
+        ResponseMapper<Integer, List<IdSearchResponseSlim>> result = new ResponseMapper<>();
+        result.setKey(persistent.getId());
+        result.setValue(list);
+        LOG.debug(String.format("searchList: count = %s", result.getValue().size()));
 
         return result;
     }
