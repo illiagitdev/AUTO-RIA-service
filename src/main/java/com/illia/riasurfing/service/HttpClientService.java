@@ -14,4 +14,6 @@ public interface HttpClientService {
 
     IdSearchResponse searchById(String params) throws IOException;
 
+    List<IdSearchResponseSlim> getIdSearchResponseSlims(CustomRequest jsonRequest) throws IOException;
+
 }

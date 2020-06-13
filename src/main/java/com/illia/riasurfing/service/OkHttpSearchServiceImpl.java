@@ -55,7 +55,20 @@ public class OkHttpSearchServiceImpl implements HttpClientService{
         int userId = userService.getUser(principal.getUsername()).getId();
         jsonRequest.setUserId(userId);
         jsonRequest.setTimeCreated(System.currentTimeMillis());
-        CustomRequest persistent = requestRepository.save(jsonRequest);
+        Integer persistentId = requestRepository.save(jsonRequest).getId();
+        List<IdSearchResponseSlim> list = getIdSearchResponseSlims(jsonRequest);
+
+        ResponseMapper<Integer, List<IdSearchResponseSlim>> result = new ResponseMapper<>();
+        result.setKey(persistentId);
+        result.setValue(list);
+        LOG.debug(String.format("searchList: count = %s", result.getValue().size()));
+
+        return result;
+    }
+
+    @NotNull
+    @Override
+    public List<IdSearchResponseSlim> getIdSearchResponseSlims(CustomRequest jsonRequest) throws IOException {
         ApiSearchResponse response = mapper.readValue(
                 Objects.requireNonNull(getResponse(uriMapper.getSearchUrlPattern(jsonRequest)).body())
                 .bytes(), new TypeReference<>() {
@@ -67,13 +80,7 @@ public class OkHttpSearchServiceImpl implements HttpClientService{
                     .body();
             list.add(mapper.readValue(Objects.requireNonNull(body).bytes(), new TypeReference<>() {}));
         }
-
-        ResponseMapper<Integer, List<IdSearchResponseSlim>> result = new ResponseMapper<>();
-        result.setKey(persistent.getId());
-        result.setValue(list);
-        LOG.debug(String.format("searchList: count = %s", result.getValue().size()));
-
-        return result;
+        return list;
     }
 
     @Override
