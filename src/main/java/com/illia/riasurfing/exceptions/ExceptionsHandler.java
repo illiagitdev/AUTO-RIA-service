@@ -33,7 +33,8 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @SneakyThrows
     @ExceptionHandler({UserEmailExistsException.class,
             UserNicknameExistsException.class,
-            RequestIllegalArgumentException.class})
+            RequestIllegalArgumentException.class,
+            SubscriptionException.class})
     public ResponseEntity<Object> handleCustomExceptions(Exception ex) {
         List<String> errors = new ArrayList<>();
         errors.add(String.format("error: %s", ex.getLocalizedMessage()));
