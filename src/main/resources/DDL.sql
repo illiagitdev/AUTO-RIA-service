@@ -251,3 +251,5 @@ CREATE TABLE search_history_drive_type_id (
 alter table search_history_drive_type_id
     owner to postgres;
 
+ALTER TABLE search_history
+    ADD CONSTRAINT search_history_user_if_fkey FOREIGN KEY (user_id) REFERENCES users (id);

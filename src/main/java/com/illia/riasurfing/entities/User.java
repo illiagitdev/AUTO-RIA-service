@@ -22,7 +22,6 @@ public class User extends BaseEntity {
     private long registerTime;
     private UserRole userRole;
     private UserStatus userStatus;
-    private List<Subscription> subscriptions;
     private List<CustomRequest> searchHistory;
 
     public User() {
@@ -117,16 +116,8 @@ public class User extends BaseEntity {
         this.userStatus = userStatus;
     }
 
-    @Transient
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-
-    @Transient
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id")
     public List<CustomRequest> getSearchHistory() {
         return searchHistory;
     }

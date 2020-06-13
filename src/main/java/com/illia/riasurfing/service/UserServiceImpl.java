@@ -124,6 +124,9 @@ public class UserServiceImpl implements UserService {
     public User updateAll(User jsonUser) {
         if (userRepository.existsById(jsonUser.getId())) {
             jsonUser.setPassword(encoder.encode(jsonUser.getPassword()));
+            LOG.debug(String.format("updateAll: %s, %s, %s, %s, %s, %s, %s,",
+                    jsonUser.getFirstName(), jsonUser.getLastName(), jsonUser.getNickname(), jsonUser.getAge(),
+                    jsonUser.getEmail(), jsonUser.getUserRole(), jsonUser.getUserStatus()));
             return userRepository.saveAndFlush(jsonUser);
         } else {
             throw new UserNotExistsException(String.format("User with id %s not exist", jsonUser.getId()));
