@@ -1,6 +1,8 @@
 package com.illia.riasurfing.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.illia.riasurfing.entities.search.request.CustomRequest;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -12,16 +14,27 @@ import java.util.List;
 @Entity
 @Component
 @Table(name = "users")
+@JsonIgnoreProperties(value = {"id", "registerTime", "userRole", "userStatus", "searchHistory"})
 public class User extends BaseEntity {
+    @ApiModelProperty(notes = "User first name")
     private String firstName;
+    @ApiModelProperty(notes = "User last name")
     private String lastName;
+    @ApiModelProperty(notes = "User first age")
     private int age;
+    @ApiModelProperty(notes = "User nickname")
     private String nickname;
+    @ApiModelProperty(notes = "User email")
     private String email;
+    @ApiModelProperty(notes = "User password")
     private String password;
+    @ApiModelProperty(notes = "Time user created", hidden = true)
     private long registerTime;
+    @ApiModelProperty(notes = "User role, for admin")
     private UserRole userRole;
+    @ApiModelProperty(notes = "User status, for admin")
     private UserStatus userStatus;
+    @ApiModelProperty(notes = "User search history", hidden = true)
     private List<CustomRequest> searchHistory;
 
     public User() {
