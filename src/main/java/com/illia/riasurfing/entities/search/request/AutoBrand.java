@@ -3,9 +3,7 @@ package com.illia.riasurfing.entities.search.request;
 import com.illia.riasurfing.entities.BaseEntity;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Component
 @Entity

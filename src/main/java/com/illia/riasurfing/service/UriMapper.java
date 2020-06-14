@@ -8,14 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class UriMapper {
     private static final Logger LOG = LogManager.getLogger(UriMapper.class);
-    private static final String INFO_PATH = "info";
-    private static final String SEARCH_PATH = "search";
+    private String infoPath = "info";
+    private String searchPath = "search";
     private String url;
     private String apiKey;
     private static final String SEARCH_URL_PATTERN = "%s%s?api_key=%s&%s";
@@ -39,15 +40,18 @@ public class UriMapper {
         this.apiKey = apiKey;
     }
 
+    @PostConstruct
+    private void postConstruct() {
+    }
 
     public String getIdInfoUri(String autoId) {
         String params = String.format("auto_id=%s", autoId);
-        return getFormatedUrl(INFO_PATH, params);
+        return getFormatedUrl(infoPath, params);
     }
 
     public String getSearchUrlPattern(CustomRequest jsonRequest) {
         String params = mapParams(jsonRequest);
-        return getFormatedUrl(SEARCH_PATH, params);
+        return getFormatedUrl(searchPath, params);
     }
 
     private String mapParams(CustomRequest jsonRequest) {

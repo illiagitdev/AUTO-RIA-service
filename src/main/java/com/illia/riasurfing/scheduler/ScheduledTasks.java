@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -33,11 +34,12 @@ public class ScheduledTasks {
     private static final Logger LOG = LogManager.getLogger(ScheduledTasks.class);
     public static final int LAST_DAY_NEW_TICKETS_INDEX = 11;
     public static final int COUNTPAGE = 10;
+    public static final int LIFESPAN_MONTHS = 3;
+    public static final String SORTING_BY_ID = "id";
+
     private String from;
     private String subjectDefault;
-    private String textDefault;
     private String rootLink;
-    public static final String SORTING_BY_ID = "id";
     private CustomRequestService requestService;
     private UserService userService;
     private MailingService mailingService;
@@ -68,28 +70,15 @@ public class ScheduledTasks {
         this.subjectDefault = subjectDefault;
     }
 
-    @Value("${mail.default.text}")
-    public void setTextDefault(String textDefault) {
-        this.textDefault = textDefault;
-    }
-
-
-    private static final String TEXT_BODY_CONTENT_LINKS = "<a href=\"%s\">%s</a>";
+    private static final String TEXT_BODY_CONTENT_LINKS = "<a href=\"%s\">%s</a> ";
     private static final String TEXT_BODY_CONTENT = "%s за день появилось %s новых объявлений(я) - %s.<br>";
-    private static final String TEXT_BODY = "<h1>Добрый день %s!</h1>" +
-            "<p>По вашим запросам:<br>" +
-            "%s</p>" +
+    private static final String TEXT_BODY = "<h1>Добрый день %s!</h1><p>По вашим запросам:<br>%s</p>" +
             "С уважением,<br>Помошник RIA.";
 
-    @Deprecated
-    private ObjectMapper mapper;
+    @PostConstruct
+    public void initTime(){}
 
-    @Autowired
-    public void setMapper(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
-
-    @Scheduled(cron = "${cron.scheduler}")
+    @Scheduled(cron = "${cron.scheduler:0 0 6 * * ?}")
     public void manageSubscription() throws IOException {
         List<Integer> usersWithSubscription = requestService.getUserUdsWithSubscription(true);
         String subject;
@@ -106,7 +95,6 @@ public class ScheduledTasks {
             subject = String.format(subjectDefault, user.getNickname());
             to = user.getEmail();
 
-            System.out.println(mapper.writeValueAsString(page));
             int pages = page.getTotalPages();
 
             StringBuilder textBodyContent = new StringBuilder();
@@ -122,17 +110,14 @@ public class ScheduledTasks {
                     final List<IdSearchResponseSlim> searchResults = clientService.getIdSearchResponseSlims(next);
                     if (searchResults.size() > 0) {
                         auto = searchResults.get(0).getMarkName();
-                        System.out.println("auto: " + auto);
                     }
 
                     newPosts = searchResults.size();
                     for (IdSearchResponseSlim singleResult : searchResults) {
                         textBodyContentLinks.append(String.format(TEXT_BODY_CONTENT_LINKS,
                                 rootLink + singleResult.getLinkToView(), singleResult.getTitle()));
-                        System.out.println("textBodyContentLinks: " + textBodyContentLinks);
                     }
                     textBodyContent.append(String.format(TEXT_BODY_CONTENT, auto, newPosts, textBodyContentLinks.toString()));
-                    System.out.println("textBodyContent: " + textBodyContent);
                 }
 
 
@@ -143,16 +128,15 @@ public class ScheduledTasks {
                 mailingService.sendEmail(from, to, subject, text);
                 LOG.debug(String.format("manageSubscription(): subject=%s to=%s, text=%s", subject, to, text));
             } catch (MessagingException e) {
-                LOG.error(String.format("manageSubscription(): ex=%s", e), e);
+                LOG.error(String.format("manageSubscription(): exception=%s", e), e);
                 e.printStackTrace();
             }
-
         }
     }
 
     @Scheduled(cron = "${cron.scheduler.clear}")
     public void deleteOldSearchRequests() {
-        LocalDateTime age = LocalDateTime.now().minusMonths(3);
+        LocalDateTime age = LocalDateTime.now().minusMonths(LIFESPAN_MONTHS);
         requestService.deleteByTimeCreatedBefore(Timestamp.valueOf(age).getTime());
         LOG.debug(String.format("deleted subscriptions with age above: %s", age));
     }
