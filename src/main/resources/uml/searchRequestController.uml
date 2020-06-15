@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="330.0" y="281.0">com.illia.riasurfing.service.UriMapper</node>
+    <node x="0.0" y="76.0">com.illia.riasurfing.service.OkHttpSearchServiceImpl</node>
+    <node x="277.0" y="518.0">com.illia.riasurfing.dao.CustomRequestRepository</node>
+    <node x="60.0" y="0.0">com.illia.riasurfing.service.HttpClientService</node>
+    <node x="0.0" y="518.0">com.illia.riasurfing.controller.SearchRequestController</node>
+    <node x="81.0" y="281.0">com.illia.riasurfing.service.UserService</node>
+    <node x="0.0" y="357.0">com.illia.riasurfing.service.UserServiceImpl</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.illia.riasurfing.service.OkHttpSearchServiceImpl" target="com.illia.riasurfing.service.HttpClientService">
+      <point x="0.0" y="-80.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.service.UserServiceImpl" target="com.illia.riasurfing.service.UserService">
+      <point x="0.0" y="-58.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="400.0" y="120.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

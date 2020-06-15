@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="513.0">com.illia.riasurfing.entities.UserStatus</node>
+    <node x="408.0" y="165.0">com.illia.riasurfing.entities.User</node>
+    <node x="973.0" y="264.0">com.illia.riasurfing.entities.search.request.GearBoxId</node>
+    <node x="180.0" y="513.0">com.illia.riasurfing.entities.UserRole</node>
+    <node x="681.0" y="0.0">com.illia.riasurfing.entities.BaseEntity</node>
+    <node x="1109.0" y="264.0">com.illia.riasurfing.entities.search.request.FuelTypeId</node>
+    <node x="0.0" y="264.0">com.illia.riasurfing.entities.search.request.DriveTypeId</node>
+    <node x="668.0" y="220.0">com.illia.riasurfing.entities.search.request.AutoData</node>
+    <node x="169.0" y="110.0">com.illia.riasurfing.entities.search.request.CustomRequest</node>
+    <node x="830.0" y="253.0">com.illia.riasurfing.entities.search.request.LocationIds</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.illia.riasurfing.entities.search.request.CustomRequest" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="0.0" y="-179.0" />
+      <point x="278.5" y="80.0" />
+      <point x="705.8571428571429" y="80.0" />
+      <point x="-33.14285714285717" y="25.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.entities.search.request.GearBoxId" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="0.0" y="-25.0" />
+      <point x="1031.0" y="80.0" />
+      <point x="772.1428571428571" y="80.0" />
+      <point x="33.14285714285717" y="25.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.entities.search.request.FuelTypeId" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="2.8421709430404007E-14" y="-25.0" />
+      <point x="1175.5" y="70.0" />
+      <point x="788.7142857142858" y="70.0" />
+      <point x="49.71428571428572" y="25.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.entities.search.request.AutoData" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="0.0" y="-69.0" />
+      <point x="0.0" y="25.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.entities.User" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="0.0" y="-124.0" />
+      <point x="528.0" y="90.0" />
+      <point x="722.4285714285714" y="90.0" />
+      <point x="-16.571428571428555" y="25.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.entities.search.request.DriveTypeId" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="0.0" y="-25.0" />
+      <point x="74.5" y="70.0" />
+      <point x="689.2857142857142" y="70.0" />
+      <point x="-49.71428571428572" y="25.0" />
+    </edge>
+    <edge source="com.illia.riasurfing.entities.search.request.LocationIds" target="com.illia.riasurfing.entities.BaseEntity">
+      <point x="0.0" y="-36.0" />
+      <point x="891.5" y="90.0" />
+      <point x="755.5714285714286" y="90.0" />
+      <point x="16.571428571428555" y="25.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.1" x="330.0" y="415.27272727272725" />
+  <SelectedNodes>
+    <node>com.illia.riasurfing.entities.UserStatus</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

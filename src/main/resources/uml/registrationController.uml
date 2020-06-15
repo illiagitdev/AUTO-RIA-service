@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="252.0" y="332.0">com.illia.riasurfing.dao.UserRepository</node>
+    <node x="0.0" y="237.0">com.illia.riasurfing.controller.RegistrationController</node>
+    <node x="0.0" y="332.0">com.illia.riasurfing.dao.CustomRequestRepository</node>
+    <node x="81.0" y="0.0">com.illia.riasurfing.service.UserService</node>
+    <node x="0.0" y="76.0">com.illia.riasurfing.service.UserServiceImpl</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.illia.riasurfing.service.UserServiceImpl" target="com.illia.riasurfing.service.UserService">
+      <point x="0.0" y="-58.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="222.0" y="340.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
