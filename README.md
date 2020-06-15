@@ -1,8 +1,9 @@
 #Web service for search at ria.com with subscription for updates.
 
 
-###Api endpoint: `http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/`
+###Api endpoint `http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/`
 
+Swagger [resource](https://app.swaggerhub.com/apis/illiagitdev/ria_api/1.0.3)
 ---
 Technologies
 -
