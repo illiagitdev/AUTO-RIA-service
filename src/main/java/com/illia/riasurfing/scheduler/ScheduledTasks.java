@@ -79,6 +79,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${cron.scheduler:0 0 6 * * ?}")
     public void manageSubscription() throws IOException {
+        LOG.info("manageSubscription() started...");
         List<Integer> usersWithSubscription = requestService.getUserUdsWithSubscription(true);
         String subject;
         String text;
@@ -126,8 +127,8 @@ public class ScheduledTasks {
 
             text = String.format(TEXT_BODY, user.getNickname(), textBodyContent.toString());
             try {
-                mailingService.sendEmail(from, to, subject, text);
                 LOG.debug(String.format("manageSubscription(): subject=%s to=%s, text=%s", subject, to, text));
+                mailingService.sendEmail(from, to, subject, text);
             } catch (MessagingException e) {
                 LOG.error(String.format("manageSubscription(): exception=%s", e), e);
                 e.printStackTrace();
