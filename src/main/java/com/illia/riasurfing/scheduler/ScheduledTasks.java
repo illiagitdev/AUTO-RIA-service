@@ -1,6 +1,5 @@
 package com.illia.riasurfing.scheduler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.illia.riasurfing.entities.User;
 import com.illia.riasurfing.entities.search.request.CustomRequest;
 import com.illia.riasurfing.entities.search.searchid.IdSearchResponseSlim;
@@ -24,7 +23,6 @@ import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,6 +34,8 @@ public class ScheduledTasks {
     public static final int COUNTPAGE = 10;
     public static final int LIFESPAN_MONTHS = 3;
     public static final String SORTING_BY_ID = "id";
+    public static final int CURRENCY_USD_INDEX = 1;
+
 
     private String from;
     private String subjectDefault;
@@ -44,7 +44,6 @@ public class ScheduledTasks {
     private UserService userService;
     private MailingService mailingService;
     private HttpClientService clientService;
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss d-M-yyyy");
 
     @Autowired
     public ScheduledTasks(CustomRequestService requestService, MailingService mailingService,
@@ -70,7 +69,7 @@ public class ScheduledTasks {
         this.subjectDefault = subjectDefault;
     }
 
-    private static final String TEXT_BODY_CONTENT_LINKS = "<a href=\"%s\">%s</a> ";
+    private static final String TEXT_BODY_CONTENT_LINKS = "<a href=\"%s\">%s</a> %s USD, ";
     private static final String TEXT_BODY_CONTENT = "%s за день появилось %s новых объявлений(я) - %s.<br>";
     private static final String TEXT_BODY = "<h1>Добрый день %s!</h1><p>По вашим запросам:<br>%s</p>" +
             "С уважением,<br>Помошник RIA.";
@@ -106,6 +105,7 @@ public class ScheduledTasks {
 
                     String auto = "";
                     next.setTop(LAST_DAY_NEW_TICKETS_INDEX);
+                    next.setCurrency(CURRENCY_USD_INDEX);
                     next.setCountpage(COUNTPAGE);
                     final List<IdSearchResponseSlim> searchResults = clientService.getIdSearchResponseSlims(next);
                     if (searchResults.size() > 0) {
@@ -115,9 +115,10 @@ public class ScheduledTasks {
                     newPosts = searchResults.size();
                     for (IdSearchResponseSlim singleResult : searchResults) {
                         textBodyContentLinks.append(String.format(TEXT_BODY_CONTENT_LINKS,
-                                rootLink + singleResult.getLinkToView(), singleResult.getTitle()));
+                                rootLink + singleResult.getLinkToView(), singleResult.getTitle(), singleResult.getUsd()));
                     }
-                    textBodyContent.append(String.format(TEXT_BODY_CONTENT, auto, newPosts, textBodyContentLinks.toString()));
+                    textBodyContent.append(String.format(TEXT_BODY_CONTENT, auto, newPosts,
+                            textBodyContentLinks.toString()));
                 }
 
 

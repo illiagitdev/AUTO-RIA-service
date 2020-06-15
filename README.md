@@ -340,3 +340,7 @@ Model AutoData:
 
 File: resourcesDDL.sql contains database configuration and basic data for tables located in 
 resources/db/DML.sql. 
+
+
+run on aws:
+sudo nohup java -jar -Dspring.profiles.active=$SPRING_PROFILE -Daws.access.key=$ACCESS_KEY -Daws.access.secret=$ACCESS_SECRET -Dlog.path=$LOG_PATH -Ddevelopers.ria.com.api.key=$RIA_API_KEY -Dspring.mail.username=$MAIL_USERNAME -Dspring.mail.password=$MAIL_PASSWORD -Dmail.default.from=$MAILING_FROM -Dcron.scheduler='0 20 11 * * ?' riasurfing-0.0.1-SNAPSHOT.war &
