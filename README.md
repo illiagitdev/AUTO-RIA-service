@@ -3,7 +3,9 @@
 
 ###Api endpoint `http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/`
 
-Swagger [resource](https://app.swaggerhub.com/apis/illiagitdev/ria_api/1.0.3)
+Swagger1 [resource](http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/swagger-ui.html),
+Swagger2 [resource](https://app.swaggerhub.com/apis/illiagitdev/custom-api_for_ria_com/1.0.4)
+
 ---
 Technologies
 -
