@@ -104,14 +104,14 @@ public class UserServiceImpl implements UserService {
     public User getUser(String nickname) {
         LOG.info(String.format("getUser(nickname): %s", nickname));
         return userRepository.findByNickname(nickname).orElseThrow(() ->
-                new RuntimeException(String.format("User with nickname '%s' not found.", nickname)));
+                new UserNicknameExistsException(String.format("User with nickname '%s' not found.", nickname)));
     }
 
     @Override
     public User getUser(Integer id) {
         LOG.info(String.format("getUser(id): %s", id));
         return userRepository.findById(id).orElseThrow(() ->
-                new RuntimeException(String.format("User with id '%s' not found.", id)));
+                new UserNotExistsException(String.format("User with id '%s' not found.", id)));
     }
 
     @Override
