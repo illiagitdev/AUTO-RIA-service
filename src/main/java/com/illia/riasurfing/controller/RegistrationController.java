@@ -26,12 +26,7 @@ public class RegistrationController {
 
     @SneakyThrows
     @ApiOperation(value = "Register new user, accept {json}")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(code = 200, message = "All good"),
-                    @ApiResponse(code = 201, message = "User created")
-            }
-    )
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @PostMapping(path = "/registration")
     public ResponseEntity<?> userRegistration(@RequestBody User jsonUser) {
             userService.create(jsonUser);

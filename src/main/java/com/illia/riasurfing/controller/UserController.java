@@ -6,6 +6,8 @@ import com.illia.riasurfing.entities.search.request.CustomRequest;
 import com.illia.riasurfing.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,12 +38,14 @@ public class UserController {
     }
 
     @ApiOperation(value = "Return logged in user")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = User.class)})
     @GetMapping(path = "/get")
     public ResponseEntity<?> showDetails() {
         return ResponseEntity.ok(userService.getUser(getUserId()));
     }
 
     @ApiOperation(value = "Delete current user")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @DeleteMapping
     public ResponseEntity<?> deleteUser() {
         final int userId = getUserId();
@@ -52,6 +56,7 @@ public class UserController {
 
     @SneakyThrows
     @ApiOperation(value = "Update general user data")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User jsonUser) {
         userService.update(jsonUser);
@@ -60,6 +65,7 @@ public class UserController {
 
     @SneakyThrows
     @ApiOperation(value = "Return search history for user")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = CustomRequest.class, responseContainer = "List")})
     @GetMapping(path = "/searchHistory")
     public ResponseEntity<?> getSearchHistory(
             @PageableDefault(size = 50, sort = "id", direction = Sort.Direction.DESC) Pageable p) {
@@ -68,6 +74,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "Subscribe user for specific search request")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @PutMapping(path = "/subscribe")
     public ResponseEntity<?> getSubscribeToSearchUpdates(@RequestParam("requestId") Integer requestId) {
         userService.enableSubscription(requestId);
@@ -75,6 +82,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "Unsubscribe user for search request updates")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK")})
     @PutMapping(path = "/unsubscribe")
     public ResponseEntity<?> disableSubscribeToSearchUpdates(@RequestParam("requestId") Integer requestId) {
         userService.disableSubscription(requestId);

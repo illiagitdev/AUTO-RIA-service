@@ -2,6 +2,7 @@ package com.illia.riasurfing.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.illia.riasurfing.entities.search.request.CustomRequest;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,8 @@ import java.util.List;
 @Entity
 @Component
 @Table(name = "users")
-@JsonIgnoreProperties(value = {"id", "registerTime", "userRole", "userStatus", "searchHistory"})
+@JsonIgnoreProperties(ignoreUnknown = true)
+@ApiModel("User information")
 public class User extends BaseEntity {
     @ApiModelProperty(notes = "User first name")
     private String firstName;
@@ -28,7 +30,7 @@ public class User extends BaseEntity {
     private String email;
     @ApiModelProperty(notes = "User password")
     private String password;
-    @ApiModelProperty(notes = "Time user created", hidden = true)
+    @ApiModelProperty(notes = "Time user created")
     private long registerTime;
     @ApiModelProperty(notes = "User role, for admin")
     private UserRole userRole;

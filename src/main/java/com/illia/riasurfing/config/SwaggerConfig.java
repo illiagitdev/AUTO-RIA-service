@@ -15,6 +15,9 @@ import java.util.Collections;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
+    private static final String title = "Custom API for RIA.COM";
+    private static final String SWAGGER_API_VERSION = "1.1";
+    private static final String description = "API for search on RIA.COM with subscription for updates";
 
     @Bean
     public Docket productApi() {
@@ -30,9 +33,9 @@ public class SwaggerConfig {
 
     private ApiInfo metaInfo() {
         return new ApiInfo(
-                "Custom API for RIA.COM",
-                "API for search on RIA.COM with subscription for updates",
-                "1.0",
+                title,
+                description,
+                SWAGGER_API_VERSION,
                 "Terms of service",
                 new Contact("CustomRIA-API", "http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com",
                         "bondarchuk.illia16@gmail.com"), "Apache 2.0",
