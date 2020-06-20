@@ -122,15 +122,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateAll(User jsonUser) {
-        if (userRepository.existsById(jsonUser.getId())) {
-            jsonUser.setPassword(encoder.encode(jsonUser.getPassword()));
-            LOG.debug(String.format("updateAll: %s, %s, %s, %s, %s, %s, %s,",
-                    jsonUser.getFirstName(), jsonUser.getLastName(), jsonUser.getNickname(), jsonUser.getAge(),
-                    jsonUser.getEmail(), jsonUser.getUserRole(), jsonUser.getUserStatus()));
-            return userRepository.saveAndFlush(jsonUser);
-        } else {
-            throw new UserNotExistsException(String.format("User with id %s not exist", jsonUser.getId()));
-        }
+        List<CustomRequest> searchHistory = userRepository.findById(jsonUser.getId()).orElseThrow(
+                () -> new UserNotExistsException("User not found")).getSearchHistory();
+        jsonUser.setPassword(encoder.encode(jsonUser.getPassword()));
+        jsonUser.setSearchHistory(searchHistory);
+        LOG.debug(String.format("updateAll: %s, %s, %s, %s, %s, %s, %s,",
+                jsonUser.getFirstName(), jsonUser.getLastName(), jsonUser.getNickname(), jsonUser.getAge(),
+                jsonUser.getEmail(), jsonUser.getUserRole(), jsonUser.getUserStatus()));
+        return userRepository.saveAndFlush(jsonUser);
     }
 
     @Override
