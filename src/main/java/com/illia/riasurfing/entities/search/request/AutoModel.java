@@ -14,7 +14,7 @@ public class AutoModel extends BaseEntity {
     private String name;
     private int value;
 
-    AutoModel() {
+    public AutoModel() {
     }
 
     @Column(name = "name")

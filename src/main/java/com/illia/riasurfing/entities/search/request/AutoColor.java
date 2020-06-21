@@ -14,7 +14,7 @@ public class AutoColor extends BaseEntity {
     private String name;
     private int value;
 
-    AutoColor() {
+    public AutoColor() {
     }
 
     @Column(name = "name")

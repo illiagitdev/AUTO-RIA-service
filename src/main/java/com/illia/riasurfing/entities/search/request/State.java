@@ -14,7 +14,7 @@ public class State extends BaseEntity {
     private int value;
     private List<City> cities;
 
-    State() {
+    public State() {
     }
 
     @Column(name = "name")

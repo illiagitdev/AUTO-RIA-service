@@ -14,7 +14,7 @@ public class GearBox extends BaseEntity {
     private String name;
     private int value;
 
-    GearBox() {
+    public GearBox() {
     }
 
     @Column(name = "name")

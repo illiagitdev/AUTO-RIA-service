@@ -14,7 +14,7 @@ public class FuelType extends BaseEntity {
     private String name;
     private int value;
 
-    FuelType() {
+    public FuelType() {
     }
 
     @Column(name = "name")

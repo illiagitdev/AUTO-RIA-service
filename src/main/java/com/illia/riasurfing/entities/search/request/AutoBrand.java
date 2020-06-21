@@ -12,7 +12,7 @@ public class AutoBrand extends BaseEntity {
     private String name;
     private int value;
 
-    AutoBrand() {
+    public AutoBrand() {
     }
 
     @Column(name = "name")

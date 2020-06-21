@@ -14,7 +14,7 @@ public class Category extends BaseEntity {
     private String name;
     private int value;
 
-    Category() {
+    public Category() {
     }
 
     @Column(name = "name")
