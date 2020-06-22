@@ -89,7 +89,9 @@ public class ScheduledTasks {
         for (Integer userId : usersWithSubscription) {
             Pageable p = PageRequest.of(0, 50, Sort.by(SORTING_BY_ID).ascending());
             page = requestService.getAllSubscriptionForUser(userId, p);
-
+            if (page.getTotalElements() == 0) {
+                return;
+            }
 
             User user = userService.getUser(userId);
             subject = String.format(subjectDefault, user.getNickname());
