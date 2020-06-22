@@ -2,6 +2,7 @@ package com.illia.riasurfing.entities.search.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.illia.riasurfing.entities.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "search_history")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@ApiModel(value = "Search request")
 public class CustomRequest extends BaseEntity {
     private Integer userId;
     private Integer categoryId;
