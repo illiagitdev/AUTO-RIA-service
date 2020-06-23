@@ -1,10 +1,9 @@
-#Web service for search at ria.com with subscription for updates.
+# Web service for search at ria.com with subscription for updates.
 
 
-###Api endpoint `http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/`
+### Api endpoint `http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/`
 
-Swagger1 [resource](http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/swagger-ui.html),
-Swagger2 [resource](https://app.swaggerhub.com/apis/illiagitdev/custom-api_for_ria_com/1.0.4)
+Swagger(require registration) [resource](http://ec2-54-93-227-37.eu-central-1.compute.amazonaws.com/swagger-ui.html),
 
 ---
 Technologies
@@ -13,9 +12,9 @@ Technologies
 Java Core, PostgresQL, Spring (MVC, Data, Security), Spring Boot, Gradle, Git, Swagger. 
 
 ---
-##API registration
+## API registration
 
-###POST /registration
+### POST /registration
 
 Input is passed as JSON encoded object in request body. New users get status `NEW` and wait for admin validation. 
 
@@ -60,80 +59,80 @@ Output is always JSON encoded object.
   *Validation*: **required**, text.
 
 -
-##Authorization
-###POST /login
+## Authorization
+### POST /login
 
 Input is passed as query parameters 
 `?login=*{login}*?password=*{password}*`
 
-###GET /logout
+### GET /logout
 
 
-##Admin level resources
+## Admin level resources
 
 
-###GET /admin/users
+### GET /admin/users
 Return list of all users
 
-###GET  /admin/usersNew
+### GET  /admin/usersNew
 Return list of users with status NEW
 
-###GET /admin/usersActive
+### GET /admin/usersActive
 Return list of users with status ACTIVE
 
-###GET /admin/usersDisabled
+### GET /admin/usersDisabled
 Return list of users with status DISABLED
 
-###GET /admin/details/{id}
+### GET /admin/details/{id}
 Return user with {id}
 
-###PUT /admin/update
+### PUT /admin/update
 Accept {json} and update all user details! Return user
 
-###PATCH /admin/updateRole/{id}
+### PATCH /admin/updateRole/{id}
 Update role for user with {id}. 
 Passed as query parameter 
 `?role=*{role}*`.
 Return user
 
-###PATCH /admin/updateStatus/{id}
+### PATCH /admin/updateStatus/{id}
 Update status for user with {id}. 
 Passed as query parameter 
 `?status=*{status}*`.
 Return user
 
-###DELETE /admin/delete/{id}
+### DELETE /admin/delete/{id}
 Delete user with {id}
 
 
-##User level resources
+## User level resources
 
 
-###GET /user/get
+### GET /user/get
 Return logged in user
 
-###GET /user/searchHistory
+### GET /user/searchHistory
 Return search history for user
 
-###PUT /user
+### PUT /user
 Accept {json} and update general user data
 
-###PUT /user/subscribe
+### PUT /user/subscribe
 Subscribe user for specific search request.
 Passed as query parameter 
 `?requestId=*{requestId}*`.
 
-###PUT /user/unsubscribe
+### PUT /user/unsubscribe
 Unsubscribe user for search request updates
 Passed as query parameter 
 `?requestId=*{requestId}*`.
 
-###DELETE /delete
+### DELETE /delete
 Delete current user
 
-##Search level resources
+## Search level resources
 
-###POST /search/list
+### POST /search/list
 Accept {json} for search request. Return list of posts by met parameters
 Model:
 
@@ -174,10 +173,10 @@ Model:
 
 Return list of posts
 
-###GET /search/autoId
+### GET /search/autoId
 Return detailed information for post with {id}
 
-##Methods level resources
+## Methods level resources
 Return {json} in format:
 
     [
@@ -188,45 +187,45 @@ Return {json} in format:
     ]
 
 
-###GET /method/category
+### GET /method/category
 Return categories
 
-###GET /method/bodystyle/{categoryId}
+### GET /method/bodystyle/{categoryId}
 Return bodystyle by category
 
-###GET /method/marks/{categoryId}
+### GET /method/marks/{categoryId}
 Return auto brands by category
 
-###GET /method/autoModel/{categoryId}/marka/{markaId}
+### GET /method/autoModel/{categoryId}/marka/{markaId}
 Return auto models by brand in category
 
-###GET /method/colors
+### GET /method/colors
 Return colors
 
-###GET /method/driveType/{categoryId}
+### GET /method/driveType/{categoryId}
 Return drive types by category
 
-###GET /method/fuelTypes
+### GET /method/fuelTypes
 Return fuel types
 
-###GET /method/gearbox/{categoryId}
+### GET /method/gearbox/{categoryId}
 Return gearboxes by category
 
-###GET /method/state
+### GET /method/state
 Return states
 
-###GET /method/cities/{stateId}
+### GET /method/cities/{stateId}
 Return cities by state
 
-###GET /method/currencies
+### GET /method/currencies
 Return currencies
 
-###GET /method/ticketSubmission
+### GET /method/ticketSubmission
 Return keys for filtering search by time
 
 
 
-#Models
+# Models
 -
 UserStatus:
 
