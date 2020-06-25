@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder encoder;
     private CustomRequestRepository requestRepository;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, CustomRequestRepository requestRepository) {
         this.userRepository = userRepository;
         this.requestRepository = requestRepository;
@@ -150,7 +151,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateRole(Integer id, UserRole userRole) {
         User user = userRepository.findById(id).orElseThrow(() ->
-                new RuntimeException("User not found."));
+                new UserNotExistsException("User not found."));
         user.setUserRole(userRole);
         userRepository.save(user);
         return user;
@@ -159,7 +160,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateStatus(Integer id, UserStatus status) {
         User user = userRepository.findById(id).orElseThrow(() ->
-                new RuntimeException("User not found."));
+                new UserNotExistsException("User not found."));
         user.setUserStatus(status);
         userRepository.save(user);
         return user;

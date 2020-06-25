@@ -7,9 +7,11 @@ import com.illia.riasurfing.entities.search.request.CustomRequest;
 import com.illia.riasurfing.exceptions.UserEmailExistsException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface UserService {
 
     void create(User user) throws UserEmailExistsException;
