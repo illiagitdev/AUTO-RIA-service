@@ -15,11 +15,13 @@ public class UserHelper {
     public static final int F_USER_AGE = 40;
     public static final String F_USER_EMAIL = "morgan@mail.com";
     public static final String F_USER_PASSWORD = "morgan";
+    public static final int INCORRECT_ID = 31416;
 
 
-    public static User createUserSimple(String fName, String nickname, int age, String email, String password) {
+    public static User createUserSimple(String fName,String lName, String nickname, int age, String email, String password) {
         User user = new User();
         user.setFirstName(fName);
+        user.setLastName(lName);
         user.setNickname(nickname);
         user.setAge(age);
         user.setEmail(email);
@@ -41,5 +43,10 @@ public class UserHelper {
         user.setUserRole(role);
         user.setSearchHistory(history);
         return user;
+    }
+
+    public static User setFirstUser() {
+        return createUser(F_USER_ID, F_USERF_F_NAME, F_USER_L_NAME, F_USER_NICKNAME, F_USER_AGE, F_USER_EMAIL, F_USER_PASSWORD,
+                UserStatus.NEW, UserRole.ROLE_USER, null);
     }
 }
